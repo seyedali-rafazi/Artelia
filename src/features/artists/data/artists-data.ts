@@ -1,0 +1,143 @@
+import type { ArtistItem } from "../types";
+
+export const mockArtists: ArtistItem[] = [
+  {
+    id: "1",
+    name: "نگار سمیعی",
+    specialty: "نقاشی، آبرنگ",
+    category: "نقاشی",
+    city: "تهران",
+    rating: 4.9,
+    reviewCount: 34,
+    image: "/artists/artist-negar.jpg",
+    isOnline: true,
+    activityType: "همه موارد",
+  },
+  {
+    id: "2",
+    name: "علی رضایی",
+    specialty: "مجسمه‌سازی",
+    category: "مجسمه‌سازی",
+    city: "تهران",
+    rating: 4.8,
+    reviewCount: 28,
+    image: "/artists/artist-ali.jpg",
+    isOnline: true,
+    activityType: "همه موارد",
+  },
+  {
+    id: "3",
+    name: "سارا احمدی",
+    specialty: "نقاشی و تصویرگری",
+    category: "نقاشی",
+    city: "تهران",
+    rating: 4.8,
+    reviewCount: 42,
+    image: "/artists/artist-sara.jpg",
+    isOnline: true,
+    activityType: "همه موارد",
+  },
+  {
+    id: "4",
+    name: "مهدی کریمی",
+    specialty: "طراحی، گرافیک",
+    category: "طراحی",
+    city: "اصفهان",
+    rating: 4.7,
+    reviewCount: 19,
+    image: "/artists/artist-mehdi.webp",
+    isOnline: true,
+    activityType: "همه موارد",
+  },
+  {
+    id: "5",
+    name: "فرهاد نادری",
+    specialty: "مجسمه‌سازی",
+    category: "مجسمه‌سازی",
+    city: "مشهد",
+    rating: 4.9,
+    reviewCount: 56,
+    image: "/artists/artist-farhad.png",
+    isOnline: true,
+    activityType: "همه موارد",
+  },
+  {
+    id: "6",
+    name: "شیما خاکی",
+    specialty: "عکاسی",
+    category: "عکاسی",
+    city: "تهران",
+    rating: 4.8,
+    reviewCount: 22,
+    image: "/artists/artist-shima.webp",
+    isOnline: true,
+    activityType: "همه موارد",
+  },
+  {
+    id: "7",
+    name: "کامران پور",
+    specialty: "نقاشی، منظره",
+    category: "نقاشی",
+    city: "شیراز",
+    rating: 4.6,
+    reviewCount: 15,
+    image: "/artists/artist-kamran.webp",
+    isOnline: true,
+    activityType: "همه موارد",
+  },
+  {
+    id: "8",
+    name: "آرمان طاهری",
+    specialty: "هنر دیجیتال",
+    category: "هنر دیجیتال",
+    city: "تهران",
+    rating: 4.8,
+    reviewCount: 31,
+    image: "/artists/artist-arman.jpg",
+    isOnline: true,
+    activityType: "همه موارد",
+  },
+];
+
+export const quickCategories = [
+  "همه هنرمندان",
+  "نقاشی",
+  "عکاسی",
+  "مجسمه‌سازی",
+  "هنر دیجیتال",
+  "طراحی",
+  "هنر تجسمی",
+  "سایر",
+];
+
+export const filterCategories = [
+  "همه دسته‌بندی‌ها",
+  "نقاشی",
+  "عکاسی",
+  "مجسمه‌سازی",
+  "طراحی",
+  "هنر دیجیتال",
+  "سایر دسته‌بندی‌ها",
+];
+
+export const filterCities = [
+  "تهران",
+  "اصفهان",
+  "مشهد",
+  "شیراز",
+  "سایر شهرها",
+];
+
+export const filterRatings = [
+  { stars: 5, label: "۵ ستاره و بالاتر" },
+  { stars: 4, label: "۴ ستاره و بالاتر" },
+  { stars: 3, label: "۳ ستاره و بالاتر" },
+];
+
+export const filterActivityTypes = [
+  "همه موارد",
+  "فروش اثر",
+  "سفارش اثر اختصاصی",
+  "نمایشگاه و گالری",
+  "آموزش و منتورینگ",
+];

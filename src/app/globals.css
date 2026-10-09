@@ -1,0 +1,110 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design tokens — single source of truth for the theme.
+ * Brand palette:
+ *   Light: Burgundy #8F1D2C, Ivory #F7F2EC, Charcoal #1C1515, Copper #C58B65
+ *   Dark:  Background #151111, Surface #211819, Burgundy #8F1D2C, Copper #D09A7A
+ * Other values below are neutral tints derived from these (via color-mix).
+ */
+:root {
+  --radius: 0.75rem;
+
+  --background: #f7f2ec;
+  --foreground: #1c1515;
+
+  --card: #fbf8f4;
+  --card-foreground: #1c1515;
+  --popover: #fbf8f4;
+  --popover-foreground: #1c1515;
+
+  --primary: #8f1d2c;
+  --primary-foreground: #f7f2ec;
+
+  --secondary: color-mix(in srgb, #c58b65 18%, #f7f2ec);
+  --secondary-foreground: #1c1515;
+
+  --muted: color-mix(in srgb, #1c1515 6%, #f7f2ec);
+  --muted-foreground: color-mix(in srgb, #1c1515 62%, #f7f2ec);
+
+  --accent: #c58b65;
+  --accent-foreground: #1c1515;
+
+  --destructive: #8f1d2c;
+  --destructive-foreground: #f7f2ec;
+
+  --border: color-mix(in srgb, #1c1515 14%, #f7f2ec);
+  --input: color-mix(in srgb, #1c1515 14%, #f7f2ec);
+  --ring: #8f1d2c;
+}
+
+.dark {
+  --background: #151111;
+  --foreground: #f7f2ec;
+
+  --card: #211819;
+  --card-foreground: #f7f2ec;
+  --popover: #211819;
+  --popover-foreground: #f7f2ec;
+
+  --primary: #8f1d2c;
+  --primary-foreground: #f7f2ec;
+
+  --secondary: color-mix(in srgb, #d09a7a 14%, #211819);
+  --secondary-foreground: #f7f2ec;
+
+  --muted: #211819;
+  --muted-foreground: color-mix(in srgb, #f7f2ec 62%, #151111);
+
+  --accent: #d09a7a;
+  --accent-foreground: #151111;
+
+  --destructive: #8f1d2c;
+  --destructive-foreground: #f7f2ec;
+
+  --border: color-mix(in srgb, #f7f2ec 12%, #151111);
+  --input: color-mix(in srgb, #f7f2ec 14%, #151111);
+  --ring: #d09a7a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Font is defined in layout.tsx via next/font and exposed as --font-sans */
+  --font-sans: var(--font-sans-base), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
