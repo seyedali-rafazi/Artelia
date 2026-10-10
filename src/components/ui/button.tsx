@@ -11,6 +11,8 @@ export const buttonVariants = cva(
         secondary:
           "bg-secondary text-primary hover:bg-primary hover:text-primary-foreground",
         card: "bg-card text-primary transition-transform hover:scale-105",
+        outline:
+          "border border-border/80 bg-card/90 text-foreground hover:bg-secondary/40 hover:border-primary/50 hover:text-primary",
         glass: "border bg-card/80 backdrop-blur",
         ghost: "text-foreground/80 hover:text-primary",
       },

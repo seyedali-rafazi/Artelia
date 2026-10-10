@@ -32,3 +32,46 @@ export interface ArtistFilterPanelProps {
   onApplyFilters: () => void;
   onResetFilters: () => void;
 }
+
+export interface ArtistHighlightItem {
+  id: string;
+  title: string;
+  image: string;
+}
+
+export interface ArtistProductItem {
+  id: string;
+  title: string;
+  price: number;
+  image: string;
+  inStock: boolean;
+  productId?: string;
+}
+
+export interface ArtistDetailItem extends ArtistItem {
+  bannerImage: string;
+  location: string;
+  bio: string;
+  isVerified: boolean;
+  stats: {
+    worksCount: number;
+    followersCount: string;
+    followingCount: number;
+  };
+  highlights: ArtistHighlightItem[];
+  aboutFeatures: Array<{
+    id: string;
+    text: string;
+    icon: "verified" | "shipping" | "customOrder";
+  }>;
+  artistInfo: Array<{
+    id: string;
+    label: string;
+    value: string;
+    icon: "style" | "calendar" | "location";
+  }>;
+  quote: string;
+  quoteBgImage?: string;
+  products: ArtistProductItem[];
+}
+

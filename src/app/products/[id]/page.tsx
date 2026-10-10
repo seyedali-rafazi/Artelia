@@ -10,9 +10,6 @@ import {
 } from "@/features/products/data/products-data";
 import { ProductDetailView } from "@/features/products/components/detail/ProductDetailView";
 
-// Allow blocking route resolution during prerender for dynamic params (Next.js 16)
-export const instant = false;
-
 interface ProductPageProps {
   params: Promise<{ id: string }>;
 }

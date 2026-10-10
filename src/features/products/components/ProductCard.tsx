@@ -24,9 +24,9 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   return (
     <article className="group flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 shadow-xs transition-all hover:border-primary/40 hover:shadow-md">
-      <div>
+      <div className="flex flex-row gap-3 md:block">
         {/* Product Image Container */}
-        <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-border/40 bg-muted/30">
+        <div className="relative aspect-square w-32 shrink-0 self-start overflow-hidden rounded-xl border border-border/40 bg-muted/30 md:w-full">
           <Link href={`/products/${product.id}`} className="block size-full">
             <Image
               src={product.image}
@@ -62,7 +62,7 @@ export const ProductCard = ({
           </button>
 
           {/* Availability Status Badge (Bottom-Right of Image) */}
-          <div className="absolute right-2.5 bottom-2.5 z-10 flex items-center gap-1.5 rounded-full border border-border/40 bg-card/90 px-2.5 py-1 text-[11px] font-bold text-foreground/90 shadow-2xs backdrop-blur-xs">
+          <div className="absolute right-2.5 bottom-2.5 z-10 hidden items-center gap-1.5 rounded-full border border-border/40 bg-card/90 px-2.5 py-1 text-[11px] font-bold text-foreground/90 shadow-2xs backdrop-blur-xs md:flex">
             <span
               className={cn(
                 "size-1.5 rounded-full",
@@ -74,31 +74,55 @@ export const ProductCard = ({
         </div>
 
         {/* Product Details (Centered) */}
-        <div className="pt-3 text-center">
+        <div className="min-w-0 flex-1 text-right md:pt-3 md:text-center">
           <h3
             title={product.title}
-            className="line-clamp-1 text-sm font-extrabold text-foreground transition-colors group-hover:text-primary"
+            className="line-clamp-2 text-sm font-extrabold leading-relaxed text-foreground transition-colors group-hover:text-primary md:line-clamp-1"
           >
             <Link href={`/products/${product.id}`} className="hover:underline">
               {product.title}
             </Link>
           </h3>
 
-          <p className="mt-1 text-xs font-semibold text-muted-foreground">
+          <p className="mt-1 hidden text-xs font-semibold text-muted-foreground md:block">
             {product.artist}
           </p>
 
           {/* Rating */}
-          <div className="mt-2 flex items-center justify-center gap-1.5 text-xs font-bold text-foreground/90">
+          <div className="mt-2 flex items-center justify-start gap-1.5 text-xs font-bold text-foreground/90 md:justify-center">
             <Star className="size-3.5 fill-amber-400 text-amber-400" />
             <span>{toPersianDigits(product.rating.toFixed(1))}</span>
-            <span className="text-muted-foreground/70">
+            <span className="hidden text-muted-foreground/70 md:inline">
               ( {toPersianDigits(product.reviewCount)} )
             </span>
           </div>
 
-          {/* Price with optional discount */}
-          <div className="mt-2.5 flex items-center justify-center gap-2">
+          {/* Mobile price: price + discount badge, old price below */}
+          <div className="mt-3 md:hidden">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-sm font-black text-foreground">
+                {formatPrice(product.price)} تومان
+              </span>
+              {product.originalPrice && (
+                <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-black text-primary-foreground">
+                  {toPersianDigits(
+                    Math.round(
+                      (1 - product.price / product.originalPrice) * 100,
+                    ),
+                  )}
+                  ٪
+                </span>
+              )}
+            </div>
+            {product.originalPrice && (
+              <span className="mt-1 block text-xs font-semibold text-muted-foreground line-through">
+                {formatPrice(product.originalPrice)}
+              </span>
+            )}
+          </div>
+
+          {/* Desktop price with optional discount */}
+          <div className="mt-2.5 hidden items-center justify-center gap-2 md:flex">
             {product.originalPrice && (
               <span className="text-xs font-semibold text-muted-foreground line-through">
                 {formatPrice(product.originalPrice)}
@@ -112,7 +136,7 @@ export const ProductCard = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="mt-3 flex items-center gap-1.5 pt-1">
+      <div className="mt-3 hidden items-center gap-1.5 pt-1 md:flex">
         {/* View Product Button */}
         <Link
           href={`/products/${product.id}`}

@@ -58,9 +58,9 @@ export const ProductDetailView = ({
       <ProductBreadcrumbs category={product.category} title={product.title} />
 
       {/* Main Top Section: Gallery (Left) & Buy Box (Right in RTL) */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start xl:gap-12">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start lg:gap-6 xl:gap-12">
         {/* Gallery Column (Desktop: left 5 or 6 cols, in RTL that's the 2nd visual block or left column) */}
-        <div className="order-1 lg:order-1 lg:col-span-5 xl:col-span-5">
+        <div className="order-1 min-w-0 lg:col-span-5">
           <ProductGallery
             images={product.galleryImages}
             title={product.title}
@@ -73,7 +73,7 @@ export const ProductDetailView = ({
         </div>
 
         {/* Product Details & Purchase Box Column */}
-        <div className="order-2 lg:order-2 lg:col-span-7 xl:col-span-7">
+        <div className="order-2 min-w-0 lg:col-span-7">
           <ProductBuyBox
             title={product.title}
             rating={product.rating}
