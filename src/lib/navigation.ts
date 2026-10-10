@@ -11,7 +11,7 @@ export type FooterSection = {
 export const mainNav: NavLink[] = [
   { label: "صفحه اصلی", href: "/" },
   { label: "هنرمندان", href: "/artists" },
-  { label: "محصولات", href: "#" },
+  { label: "محصولات", href: "/products" },
   { label: "درباره ما", href: "#" },
   { label: "وبلاگ", href: "#" },
 ];

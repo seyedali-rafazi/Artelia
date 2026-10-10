@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { Filter, RotateCcw, Sparkles, Star, X } from "lucide-react";
+import { Filter, RotateCcw, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select } from "@/components/ui/select";
@@ -11,21 +11,17 @@ import {
   filterCities,
   filterRatings,
 } from "../data/artists-data";
+import { isCategoryChecked } from "../lib/artist-filters";
+import type { ArtistFilterPanelProps } from "../types";
+import { RatingLabel } from "./RatingLabel";
 
-interface ArtistFilterDrawerProps {
+interface ArtistFilterDrawerProps extends ArtistFilterPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  selectedCategories: string[];
-  onToggleCategory: (category: string) => void;
-  selectedCities: string[];
-  onToggleCity: (city: string) => void;
-  selectedRating: number | null;
-  onSelectRating: (rating: number | null) => void;
-  activityType: string;
-  onChangeActivityType: (type: string) => void;
-  onApplyFilters: () => void;
-  onResetFilters: () => void;
 }
+
+const optionLabelClass =
+  "flex cursor-pointer items-center justify-between rounded-xl border border-border/50 bg-background/50 text-xs font-semibold text-foreground/85";
 
 export const ArtistFilterDrawer = ({
   isOpen,
@@ -41,15 +37,17 @@ export const ArtistFilterDrawer = ({
   onApplyFilters,
   onResetFilters,
 }: ArtistFilterDrawerProps) => {
-  // Lock body scroll when open
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
+    if (!isOpen) {
+      document.body.style.overflow = "";
+      return;
     }
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = originalOverflow || "";
     };
   }, [isOpen]);
 
@@ -83,60 +81,46 @@ export const ArtistFilterDrawer = ({
         </div>
 
         <div className="space-y-4">
-          {/* Categories */}
           <div className="space-y-2 border-b border-border/40 pb-3">
             <h4 className="text-xs font-bold text-foreground">دسته‌بندی‌ها</h4>
             <div className="grid grid-cols-2 gap-2">
-              {filterCategories.map((cat) => {
-                const isChecked =
-                  cat === "همه دسته‌بندی‌ها"
-                    ? selectedCategories.length === 0 ||
-                      selectedCategories.includes("همه دسته‌بندی‌ها")
-                    : selectedCategories.includes(cat);
-
-                return (
-                  <label
-                    key={cat}
-                    htmlFor={`mob-cat-${cat}`}
-                    className="flex cursor-pointer items-center justify-between rounded-xl border border-border/50 bg-background/50 p-2 text-xs font-semibold text-foreground/85"
-                  >
-                    <span>{cat}</span>
-                    <Checkbox
-                      id={`mob-cat-${cat}`}
-                      checked={isChecked}
-                      onCheckedChange={() => onToggleCategory(cat)}
-                    />
-                  </label>
-                );
-              })}
+              {filterCategories.map((cat) => (
+                <label
+                  key={cat}
+                  htmlFor={`mob-cat-${cat}`}
+                  className={`${optionLabelClass} p-2`}
+                >
+                  <span>{cat}</span>
+                  <Checkbox
+                    id={`mob-cat-${cat}`}
+                    checked={isCategoryChecked(selectedCategories, cat)}
+                    onCheckedChange={() => onToggleCategory(cat)}
+                  />
+                </label>
+              ))}
             </div>
           </div>
 
-          {/* Cities */}
           <div className="space-y-2 border-b border-border/40 pb-3">
             <h4 className="text-xs font-bold text-foreground">محل فعالیت</h4>
             <div className="grid grid-cols-2 gap-2">
-              {filterCities.map((city) => {
-                const isChecked = selectedCities.includes(city);
-                return (
-                  <label
-                    key={city}
-                    htmlFor={`mob-city-${city}`}
-                    className="flex cursor-pointer items-center justify-between rounded-xl border border-border/50 bg-background/50 p-2 text-xs font-semibold text-foreground/85"
-                  >
-                    <span>{city}</span>
-                    <Checkbox
-                      id={`mob-city-${city}`}
-                      checked={isChecked}
-                      onCheckedChange={() => onToggleCity(city)}
-                    />
-                  </label>
-                );
-              })}
+              {filterCities.map((city) => (
+                <label
+                  key={city}
+                  htmlFor={`mob-city-${city}`}
+                  className={`${optionLabelClass} p-2`}
+                >
+                  <span>{city}</span>
+                  <Checkbox
+                    id={`mob-city-${city}`}
+                    checked={selectedCities.includes(city)}
+                    onCheckedChange={() => onToggleCity(city)}
+                  />
+                </label>
+              ))}
             </div>
           </div>
 
-          {/* Ratings */}
           <div className="space-y-2 border-b border-border/40 pb-3">
             <h4 className="text-xs font-bold text-foreground">امتیاز کاربران</h4>
             <div className="space-y-1.5">
@@ -146,15 +130,9 @@ export const ArtistFilterDrawer = ({
                   <label
                     key={rating.stars}
                     htmlFor={`mob-rating-${rating.stars}`}
-                    className="flex cursor-pointer items-center justify-between rounded-xl border border-border/50 bg-background/50 p-2.5 text-xs font-semibold text-foreground/85"
+                    className={`${optionLabelClass} p-2.5`}
                   >
-                    <div className="flex items-center gap-1.5">
-                      <span>{rating.label}</span>
-                      <div className="flex items-center gap-0.5 text-amber-400">
-                        <Star className="size-3 fill-amber-400" />
-                        <Star className="size-3 fill-amber-400" />
-                      </div>
-                    </div>
+                    <RatingLabel label={rating.label} />
                     <Checkbox
                       id={`mob-rating-${rating.stars}`}
                       checked={isChecked}
@@ -168,7 +146,6 @@ export const ArtistFilterDrawer = ({
             </div>
           </div>
 
-          {/* Activity Type */}
           <div className="space-y-2 pb-2">
             <h4 className="text-xs font-bold text-foreground">نوع فعالیت</h4>
             <Select

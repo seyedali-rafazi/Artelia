@@ -104,7 +104,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    overflow-y: auto;
+  }
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    overflow-y: auto;
   }
 }
