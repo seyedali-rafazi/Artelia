@@ -12,7 +12,7 @@ export const mainNav: NavLink[] = [
   { label: "صفحه اصلی", href: "/" },
   { label: "هنرمندان", href: "/artists" },
   { label: "محصولات", href: "/products" },
-  { label: "درباره ما", href: "#" },
+  { label: "درباره ما", href: "/about-us" },
   { label: "وبلاگ", href: "#" },
 ];
 
