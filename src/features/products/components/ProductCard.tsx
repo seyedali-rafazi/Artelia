@@ -27,13 +27,15 @@ export const ProductCard = ({
       <div>
         {/* Product Image Container */}
         <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-border/40 bg-muted/30">
-          <Image
-            src={product.image}
-            alt={product.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-            className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
-          />
+          <Link href={`/products/${product.id}`} className="block size-full">
+            <Image
+              src={product.image}
+              alt={product.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+              className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
+            />
+          </Link>
 
           {/* Favorite / Heart Button (Top-Left of Image) */}
           <button
@@ -41,6 +43,7 @@ export const ProductCard = ({
             aria-label={isFavorite ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"}
             onClick={(e) => {
               e.preventDefault();
+              e.stopPropagation();
               onToggleFavorite(product.id);
             }}
             className={cn(
@@ -76,7 +79,9 @@ export const ProductCard = ({
             title={product.title}
             className="line-clamp-1 text-sm font-extrabold text-foreground transition-colors group-hover:text-primary"
           >
-            {product.title}
+            <Link href={`/products/${product.id}`} className="hover:underline">
+              {product.title}
+            </Link>
           </h3>
 
           <p className="mt-1 text-xs font-semibold text-muted-foreground">
@@ -110,7 +115,7 @@ export const ProductCard = ({
       <div className="mt-3 flex items-center gap-1.5 pt-1">
         {/* View Product Button */}
         <Link
-          href={`#product-${product.id}`}
+          href={`/products/${product.id}`}
           className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-border/60 bg-[#F2ECE4] py-2 text-xs font-bold text-foreground/90 transition-all hover:border-primary/50 hover:bg-primary hover:text-primary-foreground dark:bg-muted dark:hover:bg-primary"
         >
           <span>مشاهده محصول</span>

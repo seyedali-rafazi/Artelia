@@ -1,4 +1,4 @@
-import type { ProductItem } from "../types";
+import type { ProductDetailItem, ProductItem } from "../types";
 
 export const mockProducts: ProductItem[] = [
   // Page 1 products matching the screenshot (RTL order: item 1 is top-right)
@@ -41,12 +41,13 @@ export const mockProducts: ProductItem[] = [
   },
   {
     id: "prod-4",
-    title: "گلدان سرامیکی دست‌ساز - موج",
+    title: "گلدان سرامیکی دست‌ساز - طرح مینیمال",
     artist: "علی رضایی",
     category: "سفال و سرامیک",
-    price: 1240000,
+    price: 1280000,
+    originalPrice: 1600000,
     rating: 4.8,
-    reviewCount: 24,
+    reviewCount: 123,
     image: "/products/vase-wave.jpg",
     inStock: true,
     productType: "دست‌ساز",
@@ -337,3 +338,209 @@ export const DEFAULT_PRICE_MIN = 0;
 export const DEFAULT_PRICE_MAX = 5000000;
 export const PRICE_STEP = 50000;
 export const ITEMS_PER_PAGE = 8;
+
+export const relatedProductsList: ProductItem[] = [
+  {
+    id: "prod-5",
+    title: "تابلو دکوراتیو طرح گیاه",
+    artist: "مهتاب نادری",
+    category: "دکوراتیو",
+    price: 1520000,
+    rating: 4.9,
+    reviewCount: 22,
+    image: "/products/plant-frame.jpg",
+    inStock: true,
+    productType: "دست‌ساز",
+  },
+  {
+    id: "prod-1",
+    title: "کاسه سفالی دست‌ساز",
+    artist: "سارا احمدی",
+    category: "سفال و سرامیک",
+    price: 690000,
+    rating: 4.7,
+    reviewCount: 15,
+    image: "/products/bowl-texture.jpg",
+    inStock: true,
+    productType: "دست‌ساز",
+  },
+  {
+    id: "prod-11",
+    title: "گلدان کوچک مینیمال",
+    artist: "علی رضایی",
+    category: "سفال و سرامیک",
+    price: 870000,
+    rating: 4.8,
+    reviewCount: 34,
+    image: "/products/vase-wave.jpg",
+    inStock: true,
+    productType: "دست‌ساز",
+  },
+  {
+    id: "prod-7",
+    title: "سینی دکوراتیو سرامیکی",
+    artist: "آرمان طاهری",
+    category: "دکوراتیو",
+    price: 1280000,
+    rating: 4.8,
+    reviewCount: 18,
+    image: "/products/sculpture-clay.jpg",
+    inStock: true,
+    productType: "دست‌ساز",
+  },
+  {
+    id: "prod-6",
+    title: "مجسمه سرامیکی تزیینی",
+    artist: "سارا احمدی",
+    category: "مجسمه‌سازی",
+    price: 1450000,
+    rating: 4.9,
+    reviewCount: 29,
+    image: "/products/lamp-ceramic.jpg",
+    inStock: true,
+    productType: "دست‌ساز",
+  },
+  {
+    id: "prod-2",
+    title: "کاسه سرامیکی طرح گل",
+    artist: "آرمان طاهری",
+    category: "سفال و سرامیک",
+    price: 980000,
+    rating: 4.6,
+    reviewCount: 11,
+    image: "/products/bowl-texture.jpg",
+    inStock: true,
+    productType: "دست‌ساز",
+  },
+];
+
+export const getProductById = (id: string): ProductDetailItem | null => {
+  const baseProduct =
+    mockProducts.find((p) => p.id === id) ||
+    relatedProductsList.find((r) => r.id === id);
+
+  if (!baseProduct) return null;
+
+  // If prod-4 or matches vase wave, return full bespoke detail matching screenshot
+  if (baseProduct.id === "prod-4" || baseProduct.image.includes("vase")) {
+    return {
+      ...baseProduct,
+      title: "گلدان سرامیکی دست‌ساز - طرح مینیمال",
+      category: "دکوری و هنری",
+      price: 1280000,
+      originalPrice: 1600000,
+      discountPercent: 20,
+      rating: 4.8,
+      reviewCount: 123,
+      shortDescription:
+        "این گلدان سرامیکی با طراحی مینیمال و الهام از طبیعت، با دست هنرمندان ایرانی ساخته شده است. ترکیب فرم ساده و بافت طبیعی سرامیک، جلوه‌ای گرم و اصیل به فضای شما می‌بخشد.",
+      aboutParagraphs: [
+        "گلدان سرامیکی دست‌ساز با طراحی مینیمال، محصولی منحصربه‌فرد از هنر دست هنرمندان ایرانی است.",
+        "این گلدان با استفاده از خاک طبیعی و لعاب مات، در کوره‌های سنتی پخته شده و با دقت بالا پرداخته شده است. مناسب برای دکوراسیون منزل، دفتر کار و فضاهای هنری.",
+      ],
+      galleryImages: [
+        "/products/vase-wave.jpg",
+        "/products/vase-closeup.jpg",
+        "/products/vase-olive.jpg",
+        "/products/vase-charcoal.jpg",
+        "/products/plant-frame.jpg",
+        "/products/bowl-texture.jpg",
+      ],
+      variants: [
+        { id: "v1", name: "کرم طبیعی", image: "/products/vase-wave.jpg" },
+        { id: "v2", name: "سبز زیتونی", image: "/products/vase-olive.jpg" },
+        { id: "v3", name: "زغالی مات", image: "/products/vase-charcoal.jpg" },
+      ],
+      specifications: [
+        { label: "جنس", value: "سرامیک" },
+        { label: "ابعاد", value: "ارتفاع ۲۰ سانتی‌متر / قطر ۱۱ سانتی‌متر" },
+        { label: "وزن", value: "۷۵۰ گرم" },
+        { label: "نوع لعاب", value: "مات" },
+        { label: "مناسب برای", value: "دکور منزل، محل کار، هدیه" },
+      ],
+      ratingBreakdown: {
+        fiveStarPercent: 85,
+        fourStarPercent: 10,
+        threeStarPercent: 3,
+        twoStarPercent: 1,
+        oneStarPercent: 1,
+      },
+      featuredReviews: [
+        {
+          id: "r1",
+          author: "میتا رضایی",
+          date: "۲۶ فروردین ۱۴۰۴",
+          rating: 5,
+          isBuyer: true,
+          comment:
+            "بسیار زیبا و با کیفیت. دقیقاً همون چیزی بود که تو عکس دیدم. بسته‌بندی عالی، سریع ارسال شد. حتماً پیشنهاد می‌کنم.",
+        },
+      ],
+    };
+  }
+
+  // Generically produce rich detail for other product items
+  const discount =
+    baseProduct.originalPrice && baseProduct.originalPrice > baseProduct.price
+      ? Math.round(
+          ((baseProduct.originalPrice - baseProduct.price) /
+            baseProduct.originalPrice) *
+            100,
+        )
+      : undefined;
+
+  return {
+    ...baseProduct,
+    discountPercent: discount,
+    shortDescription: `این اثر منحصربه‌فرد با ظرافت و هنر دست ${baseProduct.artist} در دسته‌بندی ${baseProduct.category} با متریال مرغوب خلق شده است تا زیبایی و اصالت را به محیط شما هدیه کند.`,
+    aboutParagraphs: [
+      `این اثر هنری دست‌ساز با دقت و ظرافت بالا توسط ${baseProduct.artist} طراحی و اجرا شده است. هر قطعه دارای ویژگی‌های منحصر‌به‌فردی است که نشان‌دهنده هویت اصیل صنایع دستی ایرانی است.`,
+      `استفاده از مواد اولیه طبیعی و باکیفیت تضمین‌کننده ماندگاری و ارزش بصری بالای این اثر در طول سال‌ها خواهد بود.`,
+    ],
+    galleryImages: [
+      baseProduct.image,
+      "/products/vase-wave.jpg",
+      "/products/sculpture-clay.jpg",
+      "/products/bowl-texture.jpg",
+    ],
+    variants: [
+      { id: "v1", name: "طرح اصلی", image: baseProduct.image },
+      { id: "v2", name: "سبز زیتونی", image: "/products/vase-olive.jpg" },
+      { id: "v3", name: "زغالی مات", image: "/products/vase-charcoal.jpg" },
+    ],
+    specifications: [
+      { label: "دسته‌بندی", value: baseProduct.category },
+      { label: "هنرمند", value: baseProduct.artist },
+      { label: "نوع تولید", value: baseProduct.productType },
+      { label: "وضعیت موجودی", value: baseProduct.inStock ? "موجود در انبار" : "سفارشی" },
+      { label: "گارانتی", value: "ضمانت اصالت و سلامت فیزیکی" },
+    ],
+    ratingBreakdown: {
+      fiveStarPercent: 80,
+      fourStarPercent: 12,
+      threeStarPercent: 5,
+      twoStarPercent: 2,
+      oneStarPercent: 1,
+    },
+    featuredReviews: [
+      {
+        id: "r1",
+        author: "میتا رضایی",
+        date: "۲۶ فروردین ۱۴۰۴",
+        rating: 5,
+        isBuyer: true,
+        comment:
+          "بسیار زیبا و با کیفیت. دقیقاً همون چیزی بود که تو عکس دیدم. بسته‌بندی عالی، سریع ارسال شد. حتماً پیشنهاد می‌کنم.",
+      },
+    ],
+  };
+};
+
+export const getRelatedProducts = (currentId: string, limit = 6): ProductItem[] => {
+  const filtered = relatedProductsList.filter((p) => p.id !== currentId);
+  if (filtered.length >= limit) return filtered.slice(0, limit);
+  const others = mockProducts.filter(
+    (p) => p.id !== currentId && !filtered.some((f) => f.id === p.id),
+  );
+  return [...filtered, ...others].slice(0, limit);
+};

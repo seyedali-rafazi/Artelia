@@ -40,3 +40,43 @@ export interface ProductFilterPanelProps {
   onApplyFilters: () => void;
   onResetFilters: () => void;
 }
+
+export interface ProductVariant {
+  id: string;
+  name: string;
+  image: string;
+}
+
+export interface ProductSpecification {
+  label: string;
+  value: string;
+}
+
+export interface ProductReviewItem {
+  id: string;
+  author: string;
+  date: string;
+  rating: number;
+  isBuyer: boolean;
+  comment: string;
+  avatar?: string;
+}
+
+export interface RatingBreakdown {
+  fiveStarPercent: number;
+  fourStarPercent: number;
+  threeStarPercent: number;
+  twoStarPercent: number;
+  oneStarPercent: number;
+}
+
+export interface ProductDetailItem extends ProductItem {
+  discountPercent?: number;
+  galleryImages: string[];
+  shortDescription: string;
+  aboutParagraphs: string[];
+  variants: ProductVariant[];
+  specifications: ProductSpecification[];
+  ratingBreakdown: RatingBreakdown;
+  featuredReviews: ProductReviewItem[];
+}
