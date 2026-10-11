@@ -73,13 +73,11 @@ export const ProfileDropdown = ({
     };
   }, [isOpen]);
 
-  // Close on route change when pathname changes
-  const prevPathnameRef = useRef(pathname);
-  if (prevPathnameRef.current !== pathname) {
-    prevPathnameRef.current = pathname;
-    if (isOpen) {
-      setIsOpen(false);
-    }
+  // Close on route change
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setIsOpen(false);
   }
 
   const router = useRouter();

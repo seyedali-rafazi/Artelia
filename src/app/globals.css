@@ -105,9 +105,13 @@
     @apply border-border outline-ring/50;
   }
   html {
+    direction: rtl;
+    text-align: right;
     overflow-y: auto;
   }
   body {
+    direction: rtl;
+    text-align: right;
     @apply bg-background text-foreground font-sans antialiased;
     overflow-y: auto;
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   DEFAULT_PRICE_MAX,
   DEFAULT_PRICE_MIN,
@@ -21,14 +21,18 @@ export const ProductPriceRangeFilter = ({
 }: ProductPriceRangeFilterProps) => {
   const [localMin, setLocalMin] = useState(minPrice);
   const [localMax, setLocalMax] = useState(maxPrice);
+  const [prevMinPrice, setPrevMinPrice] = useState(minPrice);
+  const [prevMaxPrice, setPrevMaxPrice] = useState(maxPrice);
 
-  useEffect(() => {
+  if (prevMinPrice !== minPrice) {
+    setPrevMinPrice(minPrice);
     setLocalMin(minPrice);
-  }, [minPrice]);
+  }
 
-  useEffect(() => {
+  if (prevMaxPrice !== maxPrice) {
+    setPrevMaxPrice(maxPrice);
     setLocalMax(maxPrice);
-  }, [maxPrice]);
+  }
 
   const handleMinChange = (val: number) => {
     const clamped = Math.min(Math.max(DEFAULT_PRICE_MIN, val), localMax - PRICE_STEP);

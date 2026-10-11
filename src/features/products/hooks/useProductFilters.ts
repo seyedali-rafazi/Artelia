@@ -12,7 +12,7 @@ import {
   filterProducts,
   toggleProductCategory,
 } from "../lib/product-filters";
-import type { ProductFilters, ProductItem } from "../types";
+import type { ProductFilters } from "../types";
 
 export const useProductFilters = () => {
   const [filters, setFilters] = useState<ProductFilters>(defaultProductFilters);
