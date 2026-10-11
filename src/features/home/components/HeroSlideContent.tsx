@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import { ChevronLeft, PenTool, Search } from "lucide-react";
 import { Lalezar } from "next/font/google";
 import { Button } from "@/components/ui/button";
@@ -74,13 +74,13 @@ export const HeroSlideContent = ({
               type="submit"
               size="icon"
               className="size-9 shrink-0 rounded-full bg-primary text-primary-foreground shadow-xs hover:bg-primary/90"
-              aria-label="Ø¬Ø³ØªØ¬Ùˆ"
+              aria-label="جستجو"
             >
               <Search className="size-4" />
             </Button>
             <Input
-              aria-label="Ø¬Ø³ØªØ¬Ùˆ"
-              placeholder="Ø¬Ø³ØªØ¬ÙˆÛŒ Ù‡Ù†Ø±Ù…Ù†Ø¯ ØŒ Ø§Ø«Ø± ..."
+              aria-label="جستجو"
+              placeholder="جستجوی هنرمند ، اثر ..."
               className="border-0 bg-transparent px-3 text-xs shadow-none focus-visible:ring-0 placeholder:text-muted-foreground/80"
               onFocus={onInputFocus}
               onBlur={onInputBlur}
@@ -101,7 +101,7 @@ export const HeroSlideContent = ({
             </div>
             <button
               type="button"
-              aria-label="Ø³Ø§ÛŒØ± Ø¯Ø³ØªÙ‡â€ŒÙ‡Ø§"
+              aria-label="سایر دسته‌ها"
               className="flex size-7 shrink-0 items-center justify-center rounded-full border border-border/70 bg-card text-muted-foreground shadow-2xs transition-colors hover:bg-secondary hover:text-primary"
             >
               <ChevronLeft className="size-3.5" />
@@ -141,12 +141,12 @@ export const HeroSlideContent = ({
             onSubmit={(e) => e.preventDefault()}
             className="mt-5 flex items-center rounded-full bg-card/90 p-1 shadow-sm ring-1 ring-border backdrop-blur transition-shadow focus-within:ring-2 focus-within:ring-primary"
           >
-            <Button type="submit" size="icon" aria-label="Ø¬Ø³ØªØ¬Ùˆ">
+            <Button type="submit" size="icon" aria-label="جستجو">
               <Search className="size-4" />
             </Button>
             <Input
-              aria-label="Ø¬Ø³ØªØ¬Ùˆ"
-              placeholder="Ø¬Ø³ØªØ¬ÙˆÛŒ Ù‡Ù†Ø±Ù…Ù†Ø¯ØŒ Ø§Ø«Ø±ØŒ Ø³Ø¨Ú© Ù‡Ù†Ø±ÛŒ ..."
+              aria-label="جستجو"
+              placeholder="جستجوی هنرمند، اثر، سبک هنری ..."
               className="border-0 bg-transparent px-3 shadow-none focus-visible:ring-0"
               onFocus={onInputFocus}
               onBlur={onInputBlur}

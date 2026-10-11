@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, Heart, ShoppingCart, Star } from "lucide-react";
@@ -7,26 +8,75 @@ import { formatPrice, toPersianDigits } from "../lib/product-filters";
 import type { ProductItem } from "../types";
 import { cn } from "@/lib/utils";
 
-interface ProductCardProps {
+export interface ProductCardProps {
   product: ProductItem;
-  isFavorite: boolean;
-  isInCart: boolean;
-  onToggleFavorite: (id: string) => void;
-  onToggleCart: (id: string) => void;
+  isFavorite?: boolean;
+  isInCart?: boolean;
+  onToggleFavorite?: (id: string) => void;
+  onToggleCart?: (id: string) => void;
+  className?: string;
+  layout?: "auto" | "vertical";
 }
 
 export const ProductCard = ({
   product,
-  isFavorite,
-  isInCart,
+  isFavorite: externalIsFavorite,
+  isInCart: externalIsInCart,
   onToggleFavorite,
   onToggleCart,
+  className,
+  layout = "auto",
 }: ProductCardProps) => {
+  const [internalIsFavorite, setInternalIsFavorite] = useState(false);
+  const [internalIsInCart, setInternalIsInCart] = useState(false);
+
+  const isFavorite =
+    externalIsFavorite !== undefined ? externalIsFavorite : internalIsFavorite;
+  const isInCart =
+    externalIsInCart !== undefined ? externalIsInCart : internalIsInCart;
+
+  const isVertical = layout === "vertical";
+
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onToggleFavorite) {
+      onToggleFavorite(product.id);
+    } else {
+      setInternalIsFavorite((prev) => !prev);
+    }
+  };
+
+  const handleToggleCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onToggleCart) {
+      onToggleCart(product.id);
+    } else {
+      setInternalIsInCart((prev) => !prev);
+    }
+  };
+
   return (
-    <article className="group flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 shadow-xs transition-all hover:border-primary/40 hover:shadow-md">
-      <div className="flex flex-row gap-3 md:block">
+    <article
+      className={cn(
+        "group flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 shadow-xs transition-all hover:border-primary/40 hover:shadow-md",
+        className,
+      )}
+    >
+      <div
+        className={cn(
+          "flex",
+          isVertical ? "flex-col items-stretch" : "flex-row gap-3 md:block",
+        )}
+      >
         {/* Product Image Container */}
-        <div className="relative aspect-square w-32 shrink-0 self-start overflow-hidden rounded-xl border border-border/40 bg-muted/30 md:w-full">
+        <div
+          className={cn(
+            "relative aspect-square shrink-0 overflow-hidden rounded-xl border border-border/40 bg-muted/30",
+            isVertical ? "w-full" : "w-32 self-start md:w-full",
+          )}
+        >
           <Link href={`/products/${product.id}`} className="block size-full">
             <Image
               src={product.image}
@@ -41,11 +91,7 @@ export const ProductCard = ({
           <button
             type="button"
             aria-label={isFavorite ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onToggleFavorite(product.id);
-            }}
+            onClick={handleToggleFavorite}
             className={cn(
               "absolute top-2.5 left-2.5 z-10 grid size-8 place-items-center rounded-full border border-border/40 bg-card/90 shadow-2xs backdrop-blur-xs transition-transform hover:scale-110 active:scale-95",
               isFavorite
@@ -62,7 +108,12 @@ export const ProductCard = ({
           </button>
 
           {/* Availability Status Badge (Bottom-Right of Image) */}
-          <div className="absolute right-2.5 bottom-2.5 z-10 hidden items-center gap-1.5 rounded-full border border-border/40 bg-card/90 px-2.5 py-1 text-[11px] font-bold text-foreground/90 shadow-2xs backdrop-blur-xs md:flex">
+          <div
+            className={cn(
+              "absolute right-2.5 bottom-2.5 z-10 items-center gap-1.5 rounded-full border border-border/40 bg-card/90 px-2.5 py-1 text-[11px] font-bold text-foreground/90 shadow-2xs backdrop-blur-xs",
+              isVertical ? "flex" : "hidden md:flex",
+            )}
+          >
             <span
               className={cn(
                 "size-1.5 rounded-full",
@@ -74,55 +125,85 @@ export const ProductCard = ({
         </div>
 
         {/* Product Details (Centered) */}
-        <div className="min-w-0 flex-1 text-right md:pt-3 md:text-center">
+        <div
+          className={cn(
+            "min-w-0 flex-1",
+            isVertical ? "pt-3 text-center" : "text-right md:pt-3 md:text-center",
+          )}
+        >
           <h3
             title={product.title}
-            className="line-clamp-2 text-sm font-extrabold leading-relaxed text-foreground transition-colors group-hover:text-primary md:line-clamp-1"
+            className={cn(
+              "text-sm font-extrabold leading-relaxed text-foreground transition-colors group-hover:text-primary",
+              isVertical ? "line-clamp-1" : "line-clamp-2 md:line-clamp-1",
+            )}
           >
             <Link href={`/products/${product.id}`} className="hover:underline">
               {product.title}
             </Link>
           </h3>
 
-          <p className="mt-1 hidden text-xs font-semibold text-muted-foreground md:block">
+          <p
+            className={cn(
+              "mt-1 text-xs font-semibold text-muted-foreground",
+              isVertical ? "block line-clamp-1" : "hidden md:block",
+            )}
+          >
             {product.artist}
           </p>
 
           {/* Rating */}
-          <div className="mt-2 flex items-center justify-start gap-1.5 text-xs font-bold text-foreground/90 md:justify-center">
+          <div
+            className={cn(
+              "mt-2 flex items-center gap-1.5 text-xs font-bold text-foreground/90",
+              isVertical ? "justify-center" : "justify-start md:justify-center",
+            )}
+          >
             <Star className="size-3.5 fill-amber-400 text-amber-400" />
             <span>{toPersianDigits(product.rating.toFixed(1))}</span>
-            <span className="hidden text-muted-foreground/70 md:inline">
+            <span
+              className={cn(
+                "text-muted-foreground/70",
+                !isVertical && "hidden md:inline",
+              )}
+            >
               ( {toPersianDigits(product.reviewCount)} )
             </span>
           </div>
 
-          {/* Mobile price: price + discount badge, old price below */}
-          <div className="mt-3 md:hidden">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-sm font-black text-foreground">
-                {formatPrice(product.price)} تومان
-              </span>
+          {/* Mobile price (layout="auto" only): price + discount badge, old price below */}
+          {!isVertical && (
+            <div className="mt-3 md:hidden">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm font-black text-foreground">
+                  {formatPrice(product.price)} تومان
+                </span>
+                {product.originalPrice && (
+                  <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-black text-primary-foreground">
+                    {toPersianDigits(
+                      Math.round(
+                        (1 - product.price / product.originalPrice) * 100,
+                      ),
+                    )}
+                    ٪
+                  </span>
+                )}
+              </div>
               {product.originalPrice && (
-                <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-black text-primary-foreground">
-                  {toPersianDigits(
-                    Math.round(
-                      (1 - product.price / product.originalPrice) * 100,
-                    ),
-                  )}
-                  ٪
+                <span className="mt-1 block text-xs font-semibold text-muted-foreground line-through">
+                  {formatPrice(product.originalPrice)}
                 </span>
               )}
             </div>
-            {product.originalPrice && (
-              <span className="mt-1 block text-xs font-semibold text-muted-foreground line-through">
-                {formatPrice(product.originalPrice)}
-              </span>
-            )}
-          </div>
+          )}
 
-          {/* Desktop price with optional discount */}
-          <div className="mt-2.5 hidden items-center justify-center gap-2 md:flex">
+          {/* Desktop price (and vertical layout on all screens) with optional discount */}
+          <div
+            className={cn(
+              "mt-2.5 items-center justify-center gap-2",
+              isVertical ? "flex" : "hidden md:flex",
+            )}
+          >
             {product.originalPrice && (
               <span className="text-xs font-semibold text-muted-foreground line-through">
                 {formatPrice(product.originalPrice)}
@@ -136,7 +217,12 @@ export const ProductCard = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="mt-3 hidden items-center gap-1.5 pt-1 md:flex">
+      <div
+        className={cn(
+          "mt-3 items-center gap-1.5 pt-1",
+          isVertical ? "flex" : "hidden md:flex",
+        )}
+      >
         {/* View Product Button */}
         <Link
           href={`/products/${product.id}`}
@@ -150,7 +236,7 @@ export const ProductCard = ({
         <button
           type="button"
           aria-label={isInCart ? "در سبد خرید موجود است" : "افزودن به سبد خرید"}
-          onClick={() => onToggleCart(product.id)}
+          onClick={handleToggleCart}
           className={cn(
             "grid size-9 shrink-0 place-items-center rounded-xl border transition-all active:scale-95",
             isInCart

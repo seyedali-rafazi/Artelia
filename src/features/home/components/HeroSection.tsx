@@ -29,7 +29,7 @@ export const HeroSection = () => {
     return (
       <section
         className="group relative isolate mt-2 overflow-hidden rounded-3xl border border-border/50 bg-card shadow-sm md:min-h-[440px]"
-        aria-label="Ø¢Ø«Ø§Ø± Ø¨Ø±Ú¯Ø²ÛŒØ¯Ù‡ Ùˆ Ø§Ø³Ù„Ø§ÛŒØ¯Ø± Ø§ØµÙ„ÛŒ"
+        aria-label="آثار برگزیده و اسلایدر اصلی"
       >
         <HeroSlideContent slide={heroSlides[0]} isPriority />
       </section>
@@ -39,7 +39,7 @@ export const HeroSection = () => {
   return (
     <section
       className="group relative isolate mt-2 overflow-hidden rounded-3xl border border-border/50 bg-card shadow-sm md:min-h-[440px]"
-      aria-label="Ø¢Ø«Ø§Ø± Ø¨Ø±Ú¯Ø²ÛŒØ¯Ù‡ Ùˆ Ø§Ø³Ù„Ø§ÛŒØ¯Ø± Ø§ØµÙ„ÛŒ"
+      aria-label="آثار برگزیده و اسلایدر اصلی"
     >
       <Swiper
         modules={[Autoplay, EffectFade, Keyboard, Navigation]}
@@ -74,7 +74,7 @@ export const HeroSection = () => {
       <Button
         variant="glass"
         size="icon"
-        aria-label="Ø§Ø³Ù„Ø§ÛŒØ¯ Ù‚Ø¨Ù„ÛŒ"
+        aria-label="اسلاید قبلی"
         onClick={() => swiper?.slidePrev()}
         className="absolute top-1/2 right-4 z-20 hidden -translate-y-1/2 opacity-80 backdrop-blur transition-opacity duration-300 hover:opacity-100 md:inline-flex"
       >
@@ -83,7 +83,7 @@ export const HeroSection = () => {
       <Button
         variant="glass"
         size="icon"
-        aria-label="Ø§Ø³Ù„Ø§ÛŒØ¯ Ø¨Ø¹Ø¯ÛŒ"
+        aria-label="اسلاید بعدی"
         onClick={() => swiper?.slideNext()}
         className="absolute top-1/2 left-4 z-20 hidden -translate-y-1/2 opacity-80 backdrop-blur transition-opacity duration-300 hover:opacity-100 md:inline-flex"
       >
@@ -97,7 +97,7 @@ export const HeroSection = () => {
             key={slide.id}
             variant="ghost"
             size="bare"
-            aria-label={`Ø±ÙØªÙ† Ø¨Ù‡ Ø§Ø³Ù„Ø§ÛŒØ¯ ${i + 1}`}
+            aria-label={`رفتن به اسلاید ${i + 1}`}
             onClick={() => swiper?.slideToLoop(i)}
             className={cn(
               "h-1.5 rounded-full p-0 transition-all duration-300",
