@@ -11,43 +11,70 @@ const toPersianDigits = (value: number | string): string => {
 
 interface ArtistsListingCardProps {
   artist: ArtistItem;
+  className?: string;
+  layout?: "auto" | "vertical";
 }
 
-export const ArtistsListingCard = ({ artist }: ArtistsListingCardProps) => {
+export const ArtistsListingCard = ({
+  artist,
+  className,
+  layout = "auto",
+}: ArtistsListingCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const isVertical = layout === "vertical";
 
   return (
-    <article className="group flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 shadow-xs transition-all hover:border-primary/40 hover:shadow-md">
-      {/* Top Section: Horizontal on mobile, Vertical on md+ screens */}
-      <div className="flex items-start justify-between gap-3 md:flex-col md:items-stretch md:gap-0">
-        {/* Mobile: Text Info (on Right in RTL) */}
-        <div className="flex flex-1 flex-col justify-center text-right md:hidden">
-          <h3 className="text-base font-black text-foreground">
-            <Link href={`/artists/${artist.id}`} className="hover:text-primary transition-colors">
-              {artist.name}
-            </Link>
-          </h3>
-          <p className="mt-1 text-xs font-semibold text-muted-foreground">
-            {artist.specialty}
-          </p>
+    <article
+      className={cn(
+        "group flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 shadow-xs transition-all hover:border-primary/40 hover:shadow-md",
+        className,
+      )}
+    >
+      {/* Top Section */}
+      <div
+        className={cn(
+          "flex",
+          isVertical
+            ? "flex-col items-stretch"
+            : "items-start justify-between gap-3 md:flex-col md:items-stretch md:gap-0",
+        )}
+      >
+        {/* Mobile: Text Info (on Right in RTL) - only if not strictly vertical */}
+        {!isVertical && (
+          <div className="flex flex-1 flex-col justify-center text-right md:hidden">
+            <h3 className="text-base font-black text-foreground">
+              <Link href={`/artists/${artist.id}`} className="hover:text-primary transition-colors">
+                {artist.name}
+              </Link>
+            </h3>
+            <p className="mt-1 text-xs font-semibold text-muted-foreground line-clamp-1">
+              {artist.specialty}
+            </p>
 
-          <div className="mt-2.5 flex items-center gap-1.5 text-xs font-bold text-foreground/90">
-            <span className="text-muted-foreground/70">(</span>
-            <span>{toPersianDigits(artist.rating)}</span>
-            <Star className="size-3.5 fill-amber-400 text-amber-400" />
-            <span className="text-muted-foreground/70">)</span>
+            <div className="mt-2.5 flex items-center gap-1.5 text-xs font-bold text-foreground/90">
+              <span className="text-muted-foreground/70">(</span>
+              <span>{toPersianDigits(artist.rating)}</span>
+              <Star className="size-3.5 fill-amber-400 text-amber-400" />
+              <span className="text-muted-foreground/70">)</span>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Artist Image Container */}
-        {/* Mobile: Fixed size thumbnail on right (in RTL) | Desktop: Full width card image */}
-        <div className="relative order-first h-24 w-28 shrink-0 overflow-hidden rounded-xl border border-border/40 bg-muted/40 md:order-0 md:h-44 md:w-full md:rounded-xl">
+        <div
+          className={cn(
+            "relative overflow-hidden rounded-xl border border-border/40 bg-muted/40",
+            isVertical
+              ? "h-44 w-full"
+              : "order-first h-24 w-28 shrink-0 md:order-0 md:h-44 md:w-full",
+          )}
+        >
           <Link href={`/artists/${artist.id}`} className="block size-full">
             <Image
               src={artist.image}
               alt={artist.name}
               fill
-              sizes="(max-width: 768px) 112px, (max-width: 1200px) 25vw, 280px"
+              sizes="(max-width: 768px) 280px, (max-width: 1200px) 25vw, 280px"
               className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
             />
           </Link>
@@ -84,14 +111,19 @@ export const ArtistsListingCard = ({ artist }: ArtistsListingCardProps) => {
           )}
         </div>
 
-        {/* Desktop: Text Info below image */}
-        <div className="hidden pt-3 text-center md:block">
+        {/* Desktop / Vertical: Text Info below image */}
+        <div
+          className={cn(
+            "pt-3 text-center",
+            !isVertical && "hidden md:block",
+          )}
+        >
           <h3 className="text-base font-extrabold text-foreground">
             <Link href={`/artists/${artist.id}`} className="hover:text-primary transition-colors">
               {artist.name}
             </Link>
           </h3>
-          <p className="mt-1 text-xs font-semibold text-muted-foreground">
+          <p className="mt-1 text-xs font-semibold text-muted-foreground line-clamp-1">
             {artist.specialty}
           </p>
 
