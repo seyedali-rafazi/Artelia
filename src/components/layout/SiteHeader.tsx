@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, ShoppingBag, User } from "lucide-react";
+import { Menu, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { mainNav } from "@/lib/navigation";
 import { Logo } from "./Logo";
 import { MobileSidebar } from "./MobileSidebar";
+import { ProfileDropdown } from "./ProfileDropdown";
 
 export const SiteHeader = ({ activeHref = "/" }: { activeHref?: string }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -59,14 +60,7 @@ export const SiteHeader = ({ activeHref = "/" }: { activeHref?: string }) => {
             ۰
           </span>
         </Button>
-        <Button
-          variant="ghost"
-          size="bare"
-          aria-label="پروفایل کاربری"
-          className="grid size-8 cursor-pointer place-items-center overflow-hidden rounded-full bg-gradient-to-br from-stone-600 to-stone-900 transition-transform hover:scale-105"
-        >
-          <User className="size-4 text-primary-foreground" />
-        </Button>
+        <ProfileDropdown />
       </div>
 
       {/* Responsive mobile sidebar (drawer sliding from right to left) */}

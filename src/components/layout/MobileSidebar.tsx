@@ -1,9 +1,20 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ChevronLeft, Phone, ShoppingBag, User, X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  ChevronDown,
+  ChevronLeft,
+  Heart,
+  LayoutGrid,
+  LogOut,
+  MapPin,
+  Phone,
+  ShoppingBag,
+  User,
+  X,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { mainNav, footerContactInfo } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
@@ -21,7 +32,9 @@ export const MobileSidebar = ({
   activeHref,
 }: MobileSidebarProps) => {
   const pathname = usePathname();
+  const router = useRouter();
   const currentPath = activeHref ?? pathname;
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   // Close sidebar on ESC key press
   useEffect(() => {
@@ -152,15 +165,80 @@ export const MobileSidebar = ({
             </Button>
 
             <Button
-              variant="outline"
+              variant={isProfileOpen ? "default" : "outline"}
               size="sm"
-              onClick={onClose}
-              className="w-full justify-center gap-2 rounded-xl text-xs font-bold"
+              onClick={() => setIsProfileOpen((prev) => !prev)}
+              aria-expanded={isProfileOpen}
+              className="w-full justify-center gap-1.5 rounded-xl text-xs font-bold transition-all"
             >
               <User className="size-4" />
               <span>پروفایل</span>
+              <ChevronDown
+                className={cn(
+                  "size-3.5 transition-transform duration-200",
+                  isProfileOpen && "rotate-180",
+                )}
+              />
             </Button>
           </div>
+
+          {/* Profile options panel (shown on mobile when toggled) */}
+          {isProfileOpen && (
+            <div className="space-y-1 rounded-2xl border border-border/80 bg-background/90 p-2.5 animate-in fade-in-0 slide-in-from-top-2 duration-200">
+              {/* User info mini-header */}
+              <div className="flex items-center gap-2.5 rounded-xl border border-border/50 bg-secondary/35 p-2.5 mb-1">
+                <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-secondary text-sm font-bold text-primary shadow-2xs">
+                  س
+                </div>
+                <div className="min-w-0 flex-1 text-right">
+                  <p className="truncate text-xs font-bold text-foreground">
+                    سیدعلی رفظی
+                  </p>
+                  <p className="truncate text-[10px] text-muted-foreground" dir="ltr">
+                    seyedalirafazi80@gmail.com
+                  </p>
+                </div>
+              </div>
+
+              {/* Profile navigation items */}
+              {[
+                { title: "پنل مدیریت", href: "/admin", icon: LayoutGrid },
+                { title: "پروفایل کاربری", href: "/profile", icon: User },
+                { title: "سفارش‌های من", href: "/orders", icon: ShoppingBag },
+                { title: "علاقه‌مندی‌ها", href: "/favorites", icon: Heart },
+                { title: "آدرس‌های من", href: "/addresses", icon: MapPin },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.title}
+                    href={item.href}
+                    onClick={onClose}
+                    className="group flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-xs font-bold text-foreground/80 transition-colors hover:bg-secondary/40 hover:text-primary"
+                  >
+                    <Icon className="size-4 shrink-0 transition-colors group-hover:text-primary" />
+                    <span>{item.title}</span>
+                  </Link>
+                );
+              })}
+
+              <div className="my-1 h-px bg-border/60" />
+
+              {/* Logout button */}
+              <Button
+                variant="ghost"
+                size="bare"
+                onClick={() => {
+                  onClose();
+                  router.push("/login");
+                }}
+                className="group flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-xs font-bold text-primary transition-colors hover:bg-primary/10"
+              >
+                <LogOut className="size-4 shrink-0 transition-colors group-hover:text-primary" />
+                <span>خروج از حساب</span>
+              </Button>
+            </div>
+          )}
 
           {/* Support snippet */}
           <div className="rounded-xl bg-muted/60 p-3 text-xs text-muted-foreground">

@@ -33,7 +33,7 @@ export const footerSections: FooterSection[] = [
   {
     title: "خدمات هنرمندان",
     links: [
-      { label: "عضویت و ایجاد گالری", href: "#" },
+      { label: "عضویت و ایجاد گالری", href: "/signup?type=seller" },
       { label: "راهنمای فروش اثر هنری", href: "#" },
       { label: "استانداردهای قیمت‌گذاری و اصالت", href: "#" },
       { label: "بسته‌بندی و ارسال استاندارد", href: "#" },
